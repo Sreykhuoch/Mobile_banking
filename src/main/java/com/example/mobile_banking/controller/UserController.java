@@ -2,14 +2,14 @@ package com.example.mobile_banking.controller;
 
 import com.example.mobile_banking.api.user.User;
 import com.example.mobile_banking.api.user.dto.UserDto;
+import com.example.mobile_banking.api.user.request.UserRequest;
 import com.example.mobile_banking.base.ApiResponse;
 import com.example.mobile_banking.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
@@ -31,4 +31,18 @@ public class UserController {
                 .payload(userDto)
                 .build();
     }
+
+    @PostMapping()
+    public  ApiResponse<?>  createUser(@Valid  @RequestBody UserRequest userRequest){
+        UserDto  newUser = userService.createUser(userRequest);
+        return ApiResponse.builder()
+                .isSuccess(true)
+                .code(HttpStatus.CREATED.value())
+                .message("user have been created  successfully")
+                .timeStamp(LocalDateTime.now())
+                .payload(newUser)
+                .build();
+    }
+
+
 }

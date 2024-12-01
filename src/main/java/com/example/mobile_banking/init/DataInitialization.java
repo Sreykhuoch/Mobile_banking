@@ -95,6 +95,7 @@ public class DataInitialization {
 
 //        UserRole userRoleAdmin = UserRole.builder()
 //                .user(user)
+//                .id(1)
 //                .role(roleAdmin)
 //                .build();
 //        userRoleRepository.save(userRoleAdmin);
