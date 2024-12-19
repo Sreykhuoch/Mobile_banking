@@ -2,9 +2,13 @@ package com.example.mobile_banking.api.user;
 
 
 
+import com.example.mobile_banking.api.user.dto.UpdateUserDto;
 import com.example.mobile_banking.api.user.dto.UserDto;
 import com.example.mobile_banking.api.user.request.UserRequest;
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 
 // this interface used for mapped between entity and dto
@@ -21,4 +25,9 @@ public interface UserMapper {
 
     //convert UserRequest to User entity  when creating new user
     User createUserDtoToUser(UserRequest userRequest);
+
+    // this method support to partial update and use for updating
+    // we have return types
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE )
+    void updateUserDtoToUser(UpdateUserDto updateUserDto, @MappingTarget User user);
 }

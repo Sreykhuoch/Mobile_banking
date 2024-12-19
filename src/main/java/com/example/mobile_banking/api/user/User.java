@@ -1,5 +1,7 @@
 package com.example.mobile_banking.api.user;
 
+import com.example.mobile_banking.api.account.UserAccount;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+//user can have many accounts
 public class User {
 
     @Id
@@ -30,7 +33,12 @@ public class User {
     private boolean isStudent;
     private boolean isVerified;
 
-    @OneToMany(mappedBy = "user")
-    List<UserRole>  userRole;
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private List<UserRole>  userRole;
 
+    public void setIsStudent(Boolean student) {
+    }
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<UserAccount> userAccounts;
 }

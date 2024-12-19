@@ -1,6 +1,6 @@
 package com.example.mobile_banking.controller;
 
-import com.example.mobile_banking.api.user.User;
+import com.example.mobile_banking.api.user.dto.UpdateUserDto;
 import com.example.mobile_banking.api.user.dto.UserDto;
 import com.example.mobile_banking.api.user.request.UserRequest;
 import com.example.mobile_banking.base.ApiResponse;
@@ -34,7 +34,7 @@ public class UserController {
 
     @PostMapping()
     public  ApiResponse<?>  createUser(@Valid  @RequestBody UserRequest userRequest){
-        UserDto  newUser = userService.createUser(userRequest);
+        UserDto  newUser = userService.createUserRole(userRequest);
         return ApiResponse.builder()
                 .isSuccess(true)
                 .code(HttpStatus.CREATED.value())
@@ -43,6 +43,45 @@ public class UserController {
                 .payload(newUser)
                 .build();
     }
+
+    @GetMapping("/{uuid}")
+    public ApiResponse<?> getUserByUuid(@PathVariable String uuid){
+        UserDto userDto = userService.findUserByUuid(uuid);
+        return ApiResponse.builder()
+                .isSuccess(true)
+                .code(HttpStatus.OK.value())
+                .message("users has been found bby id ")
+                .timeStamp(LocalDateTime.now())
+                .payload(userDto)
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)  //mean that if it's success, there's nothing to return
+    @DeleteMapping("/{uuid}")
+    public void deleteUserByUuid(@PathVariable String uuid){
+        userService.deleteUserByUuid(uuid);
+
+    }
+
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{uuid}/disable")
+    public void disableUserByUuid(@PathVariable String uuid){
+        userService.disableUserByUuid(uuid);
+    }
+
+    @PutMapping("/{uuid}")
+    public ApiResponse<?> updateUserByUuid(@PathVariable String uuid, @RequestBody UpdateUserDto updateUserDto){
+        UserDto  updateUser  = userService.updateUserByUuid(uuid, updateUserDto);
+        return ApiResponse.builder()
+                .isSuccess(true)
+                .code(HttpStatus.OK.value())
+                .message("users has been updated ")
+                .timeStamp(LocalDateTime.now())
+                .payload(updateUser)
+                .build();
+    }
+
 
 
 }

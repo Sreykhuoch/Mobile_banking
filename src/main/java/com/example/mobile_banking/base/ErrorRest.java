@@ -1,16 +1,15 @@
 package com.example.mobile_banking.base;
 
 import lombok.Builder;
-import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 
 @Builder
-public record ApiResponse<T>(
+public record ErrorRest<T>(
         Boolean isSuccess,
-        Integer code,
         String message,
-        LocalDateTime timeStamp,
-        T payload
+        Integer code,
+        LocalDateTime timestamp,
+        T errors   // we use generic because we don't know specific types
 ) {
 }

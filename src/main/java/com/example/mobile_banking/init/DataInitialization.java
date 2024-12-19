@@ -10,6 +10,7 @@ import com.example.mobile_banking.api.user.User;
 import com.example.mobile_banking.api.user.UserRole;
 import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class DataInitialization {
     private final RoleRepository roleRepository;
     private final AuthorityRepo authorityRepo;
     private final UserRoleRepository userRoleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @PostConstruct   // this method will work when the spring application started
     public void init() {
@@ -81,11 +83,12 @@ public class DataInitialization {
                 .uuid(UUID.randomUUID().toString())
                 .name("Administrator")
                 .email("adminsitractor@gmail.com")
+                .password(passwordEncoder.encode("123"))
                 .gender("Male")
                 .phoneNumber("068279880")
+                .isStudent(false)
                 .isVerified(true)
                 .isDeleted(false)
-                .isStudent(true)
                 .build();
 
         //saveAll() expects a collection of entities not a single entity
